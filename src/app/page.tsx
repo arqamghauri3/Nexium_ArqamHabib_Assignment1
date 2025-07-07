@@ -10,10 +10,16 @@ export default function HomePage() {
     setIsDisabled(true);
     try {
       const response = await fetch('/api/generate-quote');
-      const data = await response.json();
-      setQuote(data[0].quote);
-      setAuthor(data[0].author);
-    } catch (error) {
+      // Explicitly type the data as an array of objects with quote and author
+      const data: { quote: string; author: string }[] = await response.json();
+      if (data[0]) {
+        setQuote(data[0].quote);
+        setAuthor(data[0].author);
+      } else {
+        setQuote("No quote found.");
+        setAuthor("");
+      }
+    } catch {
       setQuote("Something went wrong. Please try again.");
       setAuthor("");
     }
