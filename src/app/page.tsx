@@ -11,7 +11,7 @@ export default function HomePage() {
     try {
       const response = await fetch('/api/generate-quote');
       // Explicitly type the data as an array of objects with quote and author
-      const data: { quote: string; author: string }[] = await response.json();
+      const data = (await response.json()) as { quote: string; author: string }[];
       if (data[0]) {
         setQuote(data[0].quote);
         setAuthor(data[0].author);
